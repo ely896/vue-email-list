@@ -1,30 +1,40 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      mails: []
+    };
+  },
+  mounted() {
+    for (let i = 0; i < 10; i++) {
+      axios
+        .get('https://flynn.boolean.careers/exercises/api/random/mail')
+        .then((response) => {
+          this.mails.push(response.data.response);
+        });
+    }
+  }
+};
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <h1>Random Mail</h1>
+    <ul>
+      <li v-for="mail in mails" :key="mail">{{ mail }}</li>
+    </ul>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+ul {
+  list-style: none;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
+
+
 </style>
